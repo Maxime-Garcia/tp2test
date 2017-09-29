@@ -10,10 +10,9 @@ $pays = $_POST['pays'];
 $sexe = $_POST['sexe'];
 $tel = $_POST['tel'];
 
-
-
 if ($action == 'mailer') {
-    if($password != $verifpwd && (!is_null($password) || !is_null($verifpwd))) {
+
+    if ($password != $verifpwd && (!is_null($password) || !is_null($verifpwd))) {
         echo '<span style="color:#FF0000; text-align:center;"><strong>Mots de passe différents !</strong>';
     } else if (strlen($password) <= 7) {
         echo '<span style="color:#FF0000; text-align:center;"><strong>Mot de passe trop court !</strong>';
@@ -26,13 +25,15 @@ if ($action == 'mailer') {
 
         $dbLink = mysqli_connect('mysql-maximegarcia.alwaysdata.net', '144067_maxime', '31071997')
         or die('Erreur de connexion au serveur : ' . mysqli_connect_error());
-        mysqli_select_db($dbLink , 'maximegarcia_php')
+        mysqli_select_db($dbLink, 'maximegarcia_php')
         or die('Erreur dans la sélection de la base : ' . mysqli_error($dbLink)
         );
 
-        $query = 'INSERT INTO USER (ID, SEXE, MAIL, MDP, TEL, PAYS, DATE) VALUES (\'' . $id . '\', \'' . $sexe . '\', \'' . $email . '\', \'' .$password. '\', \''. $tel . '\', \'' . $pays . '\', \''. $today . '\' )';
+        $today = date('Y.m.d');
 
-        if(!($dbResult = mysqli_query($dbLink, $query))) {
+        $query = 'INSERT INTO USER (ID, SEXE, MAIL, MDP, TEL, PAYS, DATE) VALUES (\'' . $id . '\', \'' . $sexe . '\', \'' . $email . '\', \'' . $password . '\', \'' . $tel . '\', \'' . $pays . '\', \'' . $today . '\' )';
+
+        if (!($dbResult = mysqli_query($dbLink, $query))) {
             echo 'Erreur de requête<br/>';
             // Affiche le type d'erreur.
             echo 'Erreur : ' . mysqli_error($dbLink) . '<br/>';
@@ -42,25 +43,18 @@ if ($action == 'mailer') {
 
         echo 'Mail envoyé.';
     }
+} else if ($action == 'rec') {
+
+    $file = 'data.txt';
+    fopen($file, 'a');
+    if (!($file = fopen($file, 'a'))) {
+        echo 'Erreur d\'ouverture';
+        exit();
+    }
+    fputs($file, 'id : ' . $id . ', email : ' . $email . PHP_EOL);
+    fclose($file);
 } else {
     echo '<br/><strong> Bouton non géré !</strong><br/>';
 }
-
-    $dbLink = mysqli_connect('mysql-maximegarcia.alwaysdata.net', '144067_maxime', '31071997')
-    or die('Erreur de connexion au serveur : ' . mysqli_connect_error());
-    mysqli_select_db($dbLink , 'maximegarcia_php')
-    or die('Erreur dans la sélection de la base : ' . mysqli_error($dbLink)
-    );
-
-$query = 'INSERT INTO user (id, sexe, email, password, tel, pays, date) VALUES (\'' . $id . '\', \'' . $sexe . '\', \'' . $email . '\', \'' .$password. '\', \''. $tel . '\', \'' . $pays . '\', \''. $today . '\' )';
-
-    if(!($dbResult = mysqli_query($dbLink, $query))) {
-        echo 'Erreur de requête<br/>';
-        // Affiche le type d'erreur.
-        echo 'Erreur : ' . mysqli_error($dbLink) . '<br/>';
-        // Affiche la requête envoyée.
-        echo 'Requête : ' . $query . '<br/>';
-    }
-
 ?>
 <a href="index.php">Retour vers l'index</a>

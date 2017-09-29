@@ -1,6 +1,14 @@
 <?php
 require 'utils.inc.php';
 start_page('Formulaire');
+$page2 = 'page 2';
+$page2adr = 'page2.php';
+
+$pagedata = 'page data';
+$pagedataadr = 'data.php';
+
+$pagelog = 'login page';
+$pagelogadr = 'login.php';
 ?>
         <form action="data-processing.php" method="post">
             <p>
@@ -41,6 +49,12 @@ start_page('Formulaire');
 
                 <input type="checkbox" name="condgen"/>Conditions générales<br/>
                 <input type="submit" name="action" value="mailer"/>
+
+                <input type="submit" name="action" value="rec"/>
+
+                <a href="<?php echo $page2adr; ?>" target="centre"><?php echo $page2; ?></a>
+                <a href="<?php echo $pagedataadr; ?>" target="centre"><?php echo $pagedata; ?></a>
+                <a href="<?php echo $pagelogadr; ?>" target="centre"><?php echo $pagelog; ?></a>
             </p>
 
         </form>
